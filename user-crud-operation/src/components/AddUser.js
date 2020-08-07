@@ -15,32 +15,59 @@ export const AddUser = () =>{
         firstName: "",
         email: ""
       });
-    
+      const  [FirstNameError, setError] = useState({
+         Ferror:false,
+         helperFirstNameText:""
+      });
+
+      const  [LastNameError, setLastNameError] = useState({
+        Lerror:false,
+        helperLastNameText:''
+     });
       const { lastName, firstName, email ,isValidFirstName} = user;
+      const { Ferror,helperFirstNameText} = FirstNameError;
+      const { Lerror,helperLastNameText} = LastNameError;
       const onInputChange = e => {
         setUser({ ...user, [e.target.name]: e.target.value });
+        
+        if(e.target.name == "firstName" && e.target.value == ""){
+          setError({ Ferror: true,helperFirstNameText:"Please fill this feild" });
+        }else{
+          setError({ Ferror: false,helperLastNameText:"" });
+        }
+        if(e.target.name == "lastName" && e.target.value == ""){
+          setLastNameError({ Lerror: true,helperLastNameText:"Please fill this feild" });
+        }else{
+          setLastNameError({ Lerror: false,helperLastNameText:"" });
+        }
+       
       };
+
       const { addUser } = useContext(UserContext);
       const history = useHistory();
-
-      const onSubmit = (e) => {
+     
+      const onSubmit = (e,fName,lName) => {
         e.preventDefault();
-        const newUser = {
-          id: uuid(),
-          firstName,
-          email,
-          lastName
+        if(fName != " " && lName !=""){
+          const newUser = {
+            id: uuid(),
+            firstName,
+            email,
+            lastName
+          }
+          addUser(newUser);
+          history.push("/");
+        }else{
+          alert("please fill all the feild ");
         }
-        addUser(newUser);
-        history.push("/");
+       
       }
 
       const backToHome=(e)=>{
         e.preventDefault();
         history.push("/");
       }
-
-
+      
     return (
       <MuiThemeProvider>
         <>
@@ -53,8 +80,8 @@ export const AddUser = () =>{
         <form  onSubmit={e => onSubmit(e)} autoComplete="off">
             <AppBar title="Enter User Details" />
             <TextField
-              // error={isValidFirstName}
-              helperText=''
+              error={Ferror}
+              helperText={helperFirstNameText}
               placeholder="Enter Your First Name"
               label="First Name"
               name="firstName"
@@ -65,6 +92,8 @@ export const AddUser = () =>{
             />
             <br />
             <TextField
+              error={Lerror}
+              helperText={helperLastNameText}
               placeholder="Enter Your Last Name"
               label="Last Name"
               name="lastName"
@@ -88,7 +117,7 @@ export const AddUser = () =>{
             <Button
               color="primary"
               variant="contained"
-              onClick={e => onSubmit(e)}
+              onClick={e => onSubmit(e,firstName,lastName)}
             >Submit</Button>
 
              <Button
