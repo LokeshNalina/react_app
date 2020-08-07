@@ -49,7 +49,7 @@ export const AddUser = () =>{
         <form  onSubmit={e => onSubmit(e)} autoComplete="off">
             <AppBar title="Enter User Details" />
             <TextField
-              error={isValidFirstName}
+              // error={isValidFirstName}
               helperText=''
               placeholder="Enter Your First Name"
               label="First Name"
