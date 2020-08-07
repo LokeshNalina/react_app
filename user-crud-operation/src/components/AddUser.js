@@ -35,6 +35,10 @@ export const AddUser = () =>{
         history.push("/");
       }
 
+      const backToHome=(e)=>{
+        e.preventDefault();
+        history.push("/");
+      }
 
 
     return (
@@ -86,6 +90,12 @@ export const AddUser = () =>{
               variant="contained"
               onClick={e => onSubmit(e)}
             >Submit</Button>
+
+             <Button
+              // color="primary"
+              variant="contained"
+              onClick={e => backToHome(e)}
+            style={{marginLeft:"20px"}}>Cancle</Button>
             </form>
           </Dialog>
         </>
